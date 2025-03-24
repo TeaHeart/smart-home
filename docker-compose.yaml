@@ -1,0 +1,36 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - 1883:1883
+      - 3000:3000
+      - 8083:8083
+    env_file:
+      - .env
+      - .env.production
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+  mongo:
+    image: mongo:8
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_DATABASE=smart-home
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo-data:

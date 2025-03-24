@@ -1,25 +1,38 @@
-export const storage = useStorage(import.meta.env.VITE_APP_NAME)
+const namespace = import.meta.env.VITE_APP_NAME
 
-export default function useStorage(namespace) {
-  return {
-    getStorage() {
-      return JSON.parse(window.localStorage.getItem(namespace) || '{}')
-    },
-    setItem(key, value) {
-      const storage = this.getStorage()
-      storage[key] = value
-      window.localStorage.setItem(namespace, JSON.stringify(storage))
-    },
-    getItem(key) {
-      return this.getStorage()[key]
-    },
-    removeItem(key) {
-      const storage = this.getStorage()
-      delete storage[key]
-      window.localStorage.setItem(namespace, JSON.stringify(storage))
-    },
-    clear() {
-      window.localStorage.removeItem(namespace)
-    },
-  }
+function getStorage() {
+  return JSON.parse(window.localStorage.getItem(namespace) || '{}')
+}
+
+function setStorage(storage) {
+  window.localStorage.setItem(namespace, JSON.stringify(storage))
+}
+
+function removeStorage() {
+  window.localStorage.removeItem(namespace)
+}
+
+function get(key) {
+  return getStorage()[key]
+}
+
+function set(key, value) {
+  const storage = getStorage()
+  storage[key] = value
+  setStorage(storage)
+}
+
+function remove(key) {
+  const storage = getStorage()
+  delete storage[key]
+  setStorage(storage)
+}
+
+export default {
+  getStorage,
+  setStorage,
+  removeStorage,
+  set,
+  get,
+  remove,
 }

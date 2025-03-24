@@ -1,14 +1,16 @@
 import express from 'express'
-import User from '../models/user.js'
+import { User } from '../models/index.js'
+import { AppError } from './index.js'
 
 const router = express.Router()
 
 router.post('/register', async (req, res, next) => {
   try {
-    await new User(req.body).save()
+    req.body.role = 'user'
+    await User.create(req.body)
     res.json({
       code: 200,
-      message: 'ok',
+      message: 'OK',
     })
   } catch (e) {
     next(e)
@@ -17,18 +19,18 @@ router.post('/register', async (req, res, next) => {
 
 router.post('/login', async (req, res, next) => {
   try {
-    const user = await User.findOne({
+    const data = await User.findOne({
       username: req.body.username,
       password: req.body.password,
     })
-    if (!user) {
-      throw new Error('username or password is incorrect')
+    if (!data) {
+      throw new AppError(401, 'username or password is incorrect')
     }
-    req.session.user = user
+    req.session.user = data
     res.json({
       code: 200,
-      message: 'ok',
-      data: user,
+      message: 'OK',
+      data,
     })
   } catch (e) {
     next(e)
@@ -40,7 +42,7 @@ router.post('/logout', async (req, res, next) => {
     req.session.user = null
     res.json({
       code: 200,
-      message: 'ok',
+      message: 'OK',
     })
   } catch (e) {
     next(e)
@@ -49,15 +51,15 @@ router.post('/logout', async (req, res, next) => {
 
 router.get('/me', async (req, res, next) => {
   try {
-    let user = req.session.user
-    if (user) {
-      user = await User.findById(user._id)
-      req.session.user = user
+    let data = req.session.user
+    if (data) {
+      data = await User.findById(data.id)
+      req.session.user = data
     }
     res.json({
       code: 200,
-      message: 'ok',
-      data: user,
+      message: 'OK',
+      data,
     })
   } catch (e) {
     next(e)

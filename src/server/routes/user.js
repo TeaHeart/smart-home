@@ -1,38 +1,47 @@
 import express from 'express'
 import User from '../models/user.js'
+import { AppError } from './advice.js'
 
 const router = express.Router()
 
 router.post('/', async (req, res, next) => {
   try {
-    await new User(req.body).save()
+    await User.create(req.body)
     res.json({
       code: 200,
-      message: 'ok',
+      message: 'OK',
     })
   } catch (e) {
     next(e)
   }
 })
 
-router.delete('/:_id', async (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
   try {
-    await User.deleteOne({ _id: req.params._id })
+    const data = await User.findById(req.params.id)
+    if (data.username === 'sa') {
+      throw new AppError(403, 'cannot delete default user sa')
+    }
+    await User.deleteOne({ _id: req.params.id })
     res.json({
       code: 200,
-      message: 'ok',
+      message: 'OK',
     })
   } catch (e) {
     next(e)
   }
 })
 
-router.put('/:_id', async (req, res, next) => {
+router.put('/:id', async (req, res, next) => {
   try {
-    await User.updateOne({ _id: req.params._id }, req.body)
+    const data = await User.findById(req.params.id)
+    if (data.username === 'sa') {
+      throw new AppError(403, 'cannot update default user sa')
+    }
+    await User.updateOne({ _id: req.params.id }, req.body)
     res.json({
       code: 200,
-      message: 'ok',
+      message: 'OK',
     })
   } catch (e) {
     next(e)
@@ -41,24 +50,32 @@ router.put('/:_id', async (req, res, next) => {
 
 router.get('/', async (req, res, next) => {
   try {
-    const userList = await User.find()
+    const { curr, size } = req.query
+    const skip = (curr - 1) * size
+    const data = await User.find().skip(skip).limit(size)
+    const total = await User.countDocuments()
     res.json({
       code: 200,
-      message: 'ok',
-      data: userList,
+      message: 'OK',
+      data,
+      search: {
+        curr,
+        size,
+        total,
+      },
     })
   } catch (e) {
     next(e)
   }
 })
 
-router.get('/:_id', async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
-    const user = await User.findById(req.params._id)
+    const data = await User.findById(req.params.id)
     res.json({
       code: 200,
-      message: 'ok',
-      data: user,
+      message: 'OK',
+      data,
     })
   } catch (e) {
     next(e)

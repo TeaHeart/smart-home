@@ -4,26 +4,33 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "dotenvx run -of .env .env.development -- nodemon src/server/main.js -w src/server",
-    "prod": "vite -m production build && dotenvx run -of .env .env.production -- node src/server/main.js",
-    "test": "vite -m test build && dotenvx run -of .env .env.test -- node src/server/main.js",
+    "dev": "dotenvx run -f .env .env.development -- nodemon src/server/main.js -w src/server",
+    "prod": "dotenvx run -f .env .env.production -- node src/server/main.js",
+    "test": "dotenvx run -f .env .env.test -- node src/server/main.js",
+    "test:file": "dotenvx run -f .env .env.development -- nodemon",
     "build": "vite -m production build",
     "lint": "eslint . --fix",
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "aedes": "^0.51.3",
     "axios": "^1.7.9",
+    "cookie-session": "^2.1.0",
     "cors": "^2.8.5",
+    "echarts": "^5.6.0",
     "element-plus": "^2.9.4",
+    "expr-eval": "^2.0.2",
     "express": "^4.18.2",
     "express-session": "^1.18.1",
     "mitt": "^3.0.1",
     "mongoose": "^8.12.1",
+    "mqtt": "^5.10.4",
     "pinia": "^3.0.1",
     "reset-css": "^5.0.2",
     "vite-express": "^0.20.0",
     "vue": "^3.5.13",
-    "vue-router": "^4.5.0"
+    "vue-router": "^4.5.0",
+    "websocket-stream": "^5.5.2"
   },
   "devDependencies": {
     "@dotenvx/dotenvx": "^1.38.4",

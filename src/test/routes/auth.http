@@ -1,7 +1,5 @@
-@url = http://localhost:3000
-
-### 登录
-POST {{url}}/api/auth/login
+### login
+POST {{url}}/auth/login
 Content-Type: application/json
 
 {
@@ -9,11 +7,11 @@ Content-Type: application/json
     "password": "sa"
 }
 
-### 登出
-POST {{url}}/api/auth/logout
+### logout
+POST {{url}}/auth/logout
 
-### 注册
-POST {{url}}/api/auth/register
+### register
+POST {{url}}/auth/register
 Content-Type: application/json
 
 {
@@ -21,6 +19,6 @@ Content-Type: application/json
     "password": "sa"
 }
 
-### 个人信息
-GET {{url}}/api/auth/me
+### me
+POST {{url}}/auth/me
 Content-Type: application/json

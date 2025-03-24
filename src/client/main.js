@@ -1,18 +1,19 @@
 import 'reset-css'
-import './assets/main.css'
 import 'element-plus/dist/index.css'
-
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import ElementPlus from 'element-plus'
-
 import App from './App.vue'
-import router from './router'
+import router, { setupRouterGuards } from './router'
 
-const app = createApp(App)
+async function setupApp() {
+  const app = createApp(App)
+  app.use(ElementPlus)
+  app.use(createPinia())
+  await setupRouterGuards(router)
+  app.use(router)
+  app.mount('#app')
+  console.log(import.meta.env)
+}
 
-app.use(ElementPlus)
-app.use(createPinia())
-app.use(router)
-
-app.mount('#app')
+setupApp()

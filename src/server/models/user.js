@@ -1,22 +1,31 @@
 import mongoose from 'mongoose'
+import { idPlugin } from './plugin.js'
 
-const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    index: true,
-    unique: true,
-    trim: true,
-    minLength: 1,
+export const roleList = ['admin', 'user']
+
+const schema = new mongoose.Schema(
+  {
+    role: {
+      type: String,
+      enum: roleList,
+      required: false,
+    },
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
   },
-  password: {
-    type: String,
-    required: true,
-    trim: true,
-    minLength: 1,
+  {
+    virtuals: true,
+    minimize: false,
   },
-})
+)
 
-const User = mongoose.model('User', userSchema)
+schema.plugin(idPlugin)
 
-export default User
+export default mongoose.model('User', schema)

@@ -1,38 +1,40 @@
 import { ref, reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { ElMessage } from 'element-plus'
-
 import authApi from '../api/auth.js'
+import router from '../router/index.js'
 
 export default defineStore('auth', () => {
-  const user = reactive({})
+  const user = reactive({
+    role: 'admin',
+    username: 'sa',
+    password: 'sa',
+  })
   const loginUser = ref({})
 
-  function register() {
-    authApi.register(user).then((json) => {
-      ElMessage.success(json.message)
-    })
+  async function register() {
+    const json = await authApi.register(user)
+    ElMessage.success(json.message)
   }
 
-  function login() {
-    authApi.login(user).then((json) => {
-      ElMessage.success(json.message)
-      me()
-    })
+  async function login() {
+    const json = await authApi.login(user)
+    ElMessage.success(json.message)
+    await me()
+    router.push('/overview')
   }
 
-  function logout() {
-    authApi.logout().then((json) => {
-      ElMessage.success(json.message)
-      me()
-    })
+  async function logout() {
+    const json = await authApi.logout()
+    ElMessage.success(json.message)
+    await me()
+    router.push('/auth')
   }
 
-  function me() {
-    authApi.me().then((json) => {
-      ElMessage.success(json.message)
-      loginUser.value = json.data || {}
-    })
+  async function me() {
+    const json = await authApi.me()
+    ElMessage.success(json.message)
+    loginUser.value = json.data || {}
   }
 
   return {

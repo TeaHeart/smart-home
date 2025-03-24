@@ -1,0 +1,28 @@
+@id = {{userList.response.body.data[0].id}}
+### add user
+POST {{url}}/api/user
+Content-Type: application/json
+
+{
+    "username": "sa",
+    "password": "sa"
+}
+
+### delete user
+DELETE {{url}}/user/{{id}}
+
+### update user
+PUT {{url}}/user/{{id}}
+Content-Type: application/json
+
+{
+    "username": "a",
+    "password": "a"
+}
+
+### get user list
+# @name userList
+GET {{url}}/user/
+
+### get user
+GET {{url}}/user/{{id}}

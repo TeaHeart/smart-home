@@ -1,41 +1,42 @@
 import request from '../utils/request.js'
 
-const prefix = '/api/user'
+const prefix = '/user'
 
-function add(user) {
+function add(data) {
   return request({
     method: 'post',
     url: prefix,
-    data: user,
+    data,
   })
 }
 
-function deleteById(_id) {
+function deleteById(id) {
   return request({
     method: 'delete',
-    url: `${prefix}/${_id}`,
+    url: `${prefix}/${id}`,
   })
 }
 
-function updateById(_id, user) {
+function updateById(id, data) {
   return request({
     method: 'put',
-    url: `${prefix}/${_id}`,
-    data: user,
+    url: `${prefix}/${id}`,
+    data,
   })
 }
 
-function list() {
+function list(data) {
   return request({
     method: 'get',
     url: prefix,
+    data,
   })
 }
 
-function getById(_id) {
+function getById(id) {
   return request({
     method: 'get',
-    url: `${prefix}/${_id}`,
+    url: `${prefix}/${id}`,
   })
 }
 
