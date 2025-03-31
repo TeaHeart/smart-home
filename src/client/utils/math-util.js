@@ -16,9 +16,3 @@ export function toFixed(num, digit = 0) {
 export function toFixedFn(digit = 0) {
   return (num) => toFixed(num, digit)
 }
-
-export function clamp(value, min, max) {
-  value = Math.max(value, min)
-  value = Math.min(value, max)
-  return value
-}

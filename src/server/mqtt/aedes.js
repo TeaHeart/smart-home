@@ -8,7 +8,6 @@ const clientMap = {}
 aedes.on('publish', async (packet, client) => {
   try {
     if (client) {
-      console.log('publish222222222222222222222222222')
       const topic = packet.topic
       const deviceId = topic.split('/')[2]
       console.log('publish', client.id, packet.topic, packet.payload.length)

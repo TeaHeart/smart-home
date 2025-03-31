@@ -94,6 +94,7 @@ onMounted(() => {
     }
   }, 1000)
 })
+
 onUnmounted(() => {
   clearInterval(timerId)
 })
@@ -140,6 +141,6 @@ watch(
 }
 
 .device-card {
-  background-color: #2ed573;
+  background-color: #a4b0be;
 }
 </style>

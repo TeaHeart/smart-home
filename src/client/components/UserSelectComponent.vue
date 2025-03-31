@@ -1,5 +1,6 @@
 <template>
   <el-select-v2
+    filterable
     placeholder="user"
     :options="options"
     :disabled="disabled"

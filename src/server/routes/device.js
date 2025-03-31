@@ -18,13 +18,13 @@ router.put('/:id/description', async (req, res, next) => {
 router.get('/', async (req, res, next) => {
   try {
     let { curr, size, online, description } = req.query
-    if (!curr || !size) {
-      curr = 1
-      size = 10
-    }
     if (size === -1) {
       curr = 1
       size = 1000
+    }
+    if (!curr || !size) {
+      curr = 1
+      size = 10
     }
     const filter = {}
     if (online !== undefined) {
@@ -45,7 +45,7 @@ router.get('/', async (req, res, next) => {
         size,
         total,
         online,
-        description,
+        description: description || '',
       },
     })
   } catch (e) {

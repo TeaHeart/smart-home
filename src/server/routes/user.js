@@ -51,13 +51,13 @@ router.put('/:id', async (req, res, next) => {
 router.get('/', async (req, res, next) => {
   try {
     let { curr, size } = req.query
-    if (!curr || !size) {
-      curr = 1
-      size = 10
-    }
     if (size === -1) {
       curr = 1
       size = 1000
+    }
+    if (!curr || !size) {
+      curr = 1
+      size = 10
     }
     const skip = (curr - 1) * size
     const data = await User.find().skip(skip).limit(size)

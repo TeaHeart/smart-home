@@ -5,6 +5,7 @@
       <el-switch v-if="field.type === 'boolean'" v-model="data[name]" :disabled="disabled" />
       <!-- enum -->
       <el-select-v2
+        filterable
         v-else-if="field.type === 'enum'"
         :options="field.enum.map((value) => ({ label: value, value }))"
         :placeholder="name"

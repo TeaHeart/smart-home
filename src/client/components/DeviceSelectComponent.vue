@@ -1,5 +1,6 @@
 <template>
   <el-select-v2
+    filterable
     placeholder="device"
     :options="options"
     :disabled="disabled"

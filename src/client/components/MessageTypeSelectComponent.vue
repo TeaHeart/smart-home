@@ -1,5 +1,6 @@
 <template>
   <el-select-v2
+    filterable
     placeholder="type"
     :options="options"
     :clearable="clearable"

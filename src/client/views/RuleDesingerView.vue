@@ -32,7 +32,12 @@
       <DeviceSelectComponent v-model:device="entity.target" />
     </el-form-item>
     <el-form-item label="service">
-      <el-select-v2 v-model="entity.service.service" :options="targetServiceOptions" clearable />
+      <el-select-v2
+        filterable
+        v-model="entity.service.service"
+        :options="targetServiceOptions"
+        clearable
+      />
       <!-- 忘记设置了类型, 这里就没用了 -->
       <!--
       <template v-if="sourceDevice.model">

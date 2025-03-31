@@ -15,12 +15,13 @@
     <el-switch v-model="all.isAutoNext" inline-prompt active-text="autoNext" inactive-text="stop" />
     <el-button type="primary" @click="all.next++">next</el-button>
     <el-switch v-model="all.isOpen" inline-prompt active-text="open" inactive-text="close" />
+    <el-button @click="mockDevice" type="danger">creat 100 mock device</el-button>
   </el-form-item>
   <MockDeviceComponent v-for="item in dataList" :key="item.deviceId" :mock-device="item" />
 </template>
 
 <script setup>
-import { ref, provide } from 'vue'
+import { ref, provide, onUnmounted } from 'vue'
 import { ElFormItem, ElSwitch, ElButton } from 'element-plus'
 import MockDeviceComponent from '../components/MockDeviceComponent.vue'
 import { Lamp, Curtain, AirConditioner, Camera } from '../utils/device/index.js'
@@ -40,6 +41,27 @@ const dataList = ref([
 ])
 
 provide('all', all)
+
+const arr = []
+
+let timerId = setInterval(() => {
+  arr.forEach((ac) => {
+    ac.next()
+  })
+}, 1000)
+
+onUnmounted(() => {
+  clearInterval(timerId)
+})
+
+function mockDevice() {
+  for (let i = 0; i < 100; i++) {
+    const ac = new AirConditioner(crypto.randomUUID().replaceAll('-', ''))
+    ac.connect()
+    ac.properties.is_open = true
+    arr.push(ac)
+  }
+}
 </script>
 
 <style scoped></style>

@@ -5,5 +5,6 @@ import deviceApi from './device.js'
 import messageApi from './message.js'
 import ruleApi from './rule.js'
 import logApi from './log.js'
+import overviewApi from './overview.js'
 
-export { authApi, userApi, publicApi, deviceApi, messageApi, ruleApi, logApi }
+export { authApi, userApi, publicApi, deviceApi, messageApi, ruleApi, logApi, overviewApi }

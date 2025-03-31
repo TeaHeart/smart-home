@@ -57,7 +57,7 @@ export default async function setupMongo() {
 
   if ((await Message.countDocuments()) === 0) {
     const message = await Message.create({
-      type: 'online',
+      type: 'offline',
       device: device.id,
       time: Date.now(),
       data: device.model,
@@ -68,7 +68,7 @@ export default async function setupMongo() {
   if ((await Rule.countDocuments()) === 0) {
     const rule = await Rule.create({
       name: 'test rule',
-      enabled: true,
+      enabled: false,
       source: device.id,
       condition: 'property1 == 0',
       target: device.id,

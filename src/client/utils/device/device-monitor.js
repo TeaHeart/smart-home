@@ -52,7 +52,6 @@ export default class DeviceMonitor {
   }
 
   handlerMessage(topic, message) {
-    console.log(this)
     switch (topic) {
       case 'device/online':
         this.online = true
@@ -62,6 +61,9 @@ export default class DeviceMonitor {
         break
       case 'device/event':
         this.events.unshift(message)
+        if (this.events.length > 10) {
+          this.events.pop()
+        }
         break
       case 'device/offline':
         this.online = false

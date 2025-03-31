@@ -5,6 +5,7 @@
     </el-form-item>
     <el-form-item label="enabled">
       <el-select-v2
+        filterable
         style="width: 150px"
         :options="options"
         placeholder="enabled"

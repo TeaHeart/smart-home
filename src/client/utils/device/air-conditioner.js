@@ -144,6 +144,11 @@ export default class AirConditioner extends MockDevice {
     this.emit({ event: 'timing_close', data })
   }
 
+  next() {
+    super.next()
+    this.prevDirt = this.properties.dirt
+  }
+
   randomData() {
     this.properties.temperature = MathUtil.random(
       10,
@@ -225,6 +230,9 @@ export default class AirConditioner extends MockDevice {
   }
 
   checkEvent() {
+    if (!this.properties.is_open) {
+      return
+    }
     if (this.properties.timing === 0) {
       this.properties.is_open = false
       this.properties.timing = -1
@@ -233,11 +241,10 @@ export default class AirConditioner extends MockDevice {
       })
     }
     if ([80, 90, 100].includes(this.properties.dirt)) {
-      if (this.prevDirt !== 100) {
+      if (this.prevDirt !== this.properties.dirt) {
         this.event_need_clean({
           dirt: this.properties.dirt,
         })
-        this.prevDirt = this.properties.dirt
       }
     }
   }

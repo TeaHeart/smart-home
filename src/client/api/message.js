@@ -17,7 +17,16 @@ function getById(id) {
   })
 }
 
+function listHistory(data) {
+  return request({
+    method: 'get',
+    url: `${prefix}/history/${data.deviceId}`,
+    data,
+  })
+}
+
 export default {
   list,
   getById,
+  listHistory,
 }

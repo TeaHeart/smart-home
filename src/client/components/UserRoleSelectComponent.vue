@@ -1,5 +1,6 @@
 <template>
   <el-select-v2
+    filterable
     placeholder="role"
     :options="options"
     :clearable="clearable"

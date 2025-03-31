@@ -10,6 +10,7 @@ import deviceRouter from './device.js'
 import messageRouter from './message.js'
 import ruleRouter from './rule.js'
 import logRouter from './log.js'
+import overviewRouter from './overview.js'
 import { AppError, parseQuery, logger, authentication, errorHandler } from './advice.js'
 
 export { AppError }
@@ -35,6 +36,7 @@ export default function setupExpress() {
     app.use('/api/message', messageRouter)
     app.use('/api/rule', ruleRouter)
     app.use('/api/log', logRouter)
+    app.use('/api/overview', overviewRouter)
     app.use('/api', errorHandler)
 
     ViteExpress.listen(app, process.env.VITE_SERVER_PORT, () => {

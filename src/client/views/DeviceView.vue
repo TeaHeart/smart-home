@@ -2,6 +2,7 @@
   <el-form :inline="true" :model="search">
     <el-form-item label="online">
       <el-select-v2
+        filterable
         style="width: 150px"
         placeholder="online"
         :options="options"

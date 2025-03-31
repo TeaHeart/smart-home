@@ -66,18 +66,18 @@
   />
 
   <el-dialog v-model="dialogVisible" title="edit">
-    <el-form :model="addUser">
+    <el-form :model="editUser">
       <el-form-item label="id">
-        <el-input disabled v-model="addUser.id" />
+        <el-input v-model="editUser.id" disabled />
       </el-form-item>
       <el-form-item label="username">
-        <el-input v-model="addUser.username" />
+        <el-input v-model="editUser.username" />
       </el-form-item>
       <el-form-item label="password">
-        <el-input type="password" v-model="addUser.password" />
+        <el-input type="password" v-model="editUser.password" />
       </el-form-item>
       <el-form-item label="role">
-        <UserRoleComponent v-model:role="addUser.role" />
+        <UserRoleComponent v-model:role="editUser.role" />
       </el-form-item>
     </el-form>
     <template #footer>

@@ -1,21 +1,20 @@
 # smart-home
 
-- [ ] overview
-- [x] auth
+- [x] overview
+- [x] user
   - [x] user auth
   - [x] access control
-- [x] user
   - [x] user
 - [x] device
   - [x] device
-  - [x] monitor
-  - [x] device-mock
-- [ ] message
+  - [x] device monitor
+- [x] message
   - [x] message
-  - [ ] databoard
-- [ ] rule
+  - [x] message databoard
+- [x] rule
   - [x] rule
-  - [ ] desinger
-- [x] log
+  - [x] rule desinger
+- [x] system
   - [x] log
-  - [x] record
+  - [x] device mock
+  - [ ] about
