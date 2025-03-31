@@ -23,10 +23,7 @@
 import { ref, provide } from 'vue'
 import { ElFormItem, ElSwitch, ElButton } from 'element-plus'
 import MockDeviceComponent from '../components/MockDeviceComponent.vue'
-import Lamp from '../utils/device/lamp.js'
-import Curtain from '../utils/device/curtain.js'
-import AirConditioner from '../utils/device/air-conditioner.js'
-import Camera from '../utils/device/camera'
+import { Lamp, Curtain, AirConditioner, Camera } from '../utils/device/index.js'
 
 const all = ref({
   isAutoNext: false,
@@ -37,13 +34,9 @@ const all = ref({
 })
 const dataList = ref([
   new Lamp('00000000000000000000000000000001'),
-  new Lamp('00000000000000000000000000000002'),
-  new Curtain('00000000000000000000000000000003'),
-  new Curtain('00000000000000000000000000000004'),
-  new Camera('00000000000000000000000000000005'),
-  new Camera('00000000000000000000000000000006'),
-  new AirConditioner('00000000000000000000000000000007'),
-  new AirConditioner('00000000000000000000000000000008'),
+  new Curtain('00000000000000000000000000000002'),
+  new Camera('00000000000000000000000000000003'),
+  new AirConditioner('00000000000000000000000000000004'),
 ])
 
 provide('all', all)

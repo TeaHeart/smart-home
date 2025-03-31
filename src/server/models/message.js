@@ -1,13 +1,13 @@
 import mongoose from 'mongoose'
 import { idPlugin } from './plugin.js'
 
-export const typeList = ['online', 'upload', 'service', 'event', 'offline']
+export const messageTypeList = ['online', 'upload', 'service', 'event', 'offline']
 
 const schema = new mongoose.Schema(
   {
     type: {
       type: String,
-      enum: typeList,
+      enum: messageTypeList,
       required: true,
     },
     device: {

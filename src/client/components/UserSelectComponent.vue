@@ -1,21 +1,27 @@
 <template>
   <el-select-v2
-    :model-value="user"
-    @update:model-value="update"
     placeholder="user"
-    :options="dataList"
-    clearable
+    :options="options"
+    :disabled="disabled"
+    :clearable="clearable"
+    v-model="user"
   />
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { ElSelectV2, ElMessage } from 'element-plus'
 import { userApi } from '../api/index.js'
 
-const dataList = ref([])
-
-defineProps({
+const props = defineProps({
+  disabled: {
+    type: Boolean,
+    default: () => false,
+  },
+  clearable: {
+    type: Boolean,
+    default: () => true,
+  },
   user: {
     type: String,
   },
@@ -23,14 +29,17 @@ defineProps({
 
 const emit = defineEmits(['update:user'])
 
-function update(value) {
-  emit('update:user', value)
-}
+const user = computed({
+  get: () => props.user,
+  set: (value) => emit('update:user', value),
+})
+
+const options = ref([])
 
 async function list() {
-  const json = await userApi.list({ curr: 1, size: 1000 })
+  const json = await userApi.list({ size: -1 })
   ElMessage.success(json.message)
-  dataList.value = json.data.map((value) => ({
+  options.value = json.data.map((value) => ({
     label: value.username,
     value: value.id,
   }))

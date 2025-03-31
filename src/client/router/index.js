@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import { storeToRefs } from 'pinia'
 import useAuthStore from '../stores/auth.js'
+import { storeToRefs } from 'pinia'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -78,22 +78,18 @@ const router = createRouter({
   ],
 })
 
-export async function setupRouterGuards() {
+router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
-  const { me } = authStore
   const { loginUser } = storeToRefs(authStore)
-  await me()
-  router.beforeEach((to, from, next) => {
-    console.log(from.path, '=>', to.path)
-    const isAuthenticated = loginUser.value.username
-    if (to.path !== '/auth' && !isAuthenticated) {
-      next('/auth')
-    } else if (to.path === '/auth' && isAuthenticated) {
-      next('/overview')
-    } else {
-      next()
-    }
-  })
-}
+  console.log('router', from.path, '=>', to.path)
+  const isAuthenticated = loginUser.value.username
+  if (to.path !== '/auth' && !isAuthenticated) {
+    next('/auth')
+  } else if (to.path === '/auth' && isAuthenticated) {
+    next('/overview')
+  } else {
+    next()
+  }
+})
 
 export default router

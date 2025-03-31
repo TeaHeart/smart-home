@@ -25,16 +25,8 @@ function getById(id) {
   })
 }
 
-function getStateList() {
-  return request({
-    method: 'get',
-    url: `${prefix}/stateList`,
-  })
-}
-
 export default {
   updateDescriptionById,
   list,
   getById,
-  getStateList,
 }

@@ -1,46 +1,46 @@
 <template>
   <el-select-v2
-    :disabled="disable"
-    :model-value="device"
-    @update:model-value="update"
     placeholder="device"
-    :options="dataList"
-    clearable
+    :options="options"
+    :disabled="disabled"
+    :clearable="clearable"
+    v-model="device"
   />
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { ElSelectV2, ElMessage } from 'element-plus'
 import { deviceApi } from '../api/index.js'
 
-const dataList = ref([])
-
-defineProps({
+const props = defineProps({
+  disabled: {
+    type: Boolean,
+    default: () => false,
+  },
+  clearable: {
+    type: Boolean,
+    default: () => true,
+  },
   device: {
     type: String,
-  },
-  disable: {
-    type: Boolean,
-    default: false,
   },
 })
 
 const emit = defineEmits(['update:device'])
 
-function update(value) {
-  emit('update:device', value)
-}
+const device = computed({
+  get: () => props.device,
+  set: (value) => emit('update:device', value),
+})
+
+const options = ref([])
 
 async function list() {
   const json = await deviceApi.list({ size: -1 })
   ElMessage.success(json.message)
-  dataList.value = json.data.map((value) => ({
-    label: {
-      deviceId: value.deviceId,
-      description: value.description,
-      name: value.model.name,
-    },
+  options.value = json.data.map((value) => ({
+    label: [value.deviceId, value.description, value.model.name].join(' | '),
     value: value.id,
   }))
 }

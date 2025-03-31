@@ -5,7 +5,11 @@ const router = express.Router()
 
 router.get('/', async (req, res, next) => {
   try {
-    const { curr, size, user, level } = req.query
+    let { curr, size, user, level } = req.query
+    if (!curr || !size) {
+      curr = 1
+      size = 10
+    }
     const skip = (curr - 1) * size
     const filter = {}
     if (user) {
@@ -22,7 +26,7 @@ router.get('/', async (req, res, next) => {
     const total = await Log.countDocuments(filter)
     res.json({
       code: 200,
-      message: 'OK',
+      message: 'ok',
       data,
       search: {
         curr,

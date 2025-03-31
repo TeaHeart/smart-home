@@ -8,7 +8,7 @@ router.put('/:id/description', async (req, res, next) => {
     await Device.updateOne({ _id: req.params.id }, { description: req.body.description })
     res.json({
       code: 200,
-      message: 'OK',
+      message: 'ok',
     })
   } catch (e) {
     next(e)
@@ -17,14 +17,18 @@ router.put('/:id/description', async (req, res, next) => {
 
 router.get('/', async (req, res, next) => {
   try {
-    let { curr, size, state, description } = req.query
+    let { curr, size, online, description } = req.query
+    if (!curr || !size) {
+      curr = 1
+      size = 10
+    }
     if (size === -1) {
       curr = 1
       size = 1000
     }
     const filter = {}
-    if (state !== undefined) {
-      filter.state = state
+    if (online !== undefined) {
+      filter.online = online
     }
     if (description) {
       filter.description = { $regex: description, $options: 'i' }
@@ -34,13 +38,13 @@ router.get('/', async (req, res, next) => {
     const total = await Device.countDocuments(filter)
     res.json({
       code: 200,
-      message: 'OK',
+      message: 'ok',
       data,
       search: {
         curr,
         size,
         total,
-        state,
+        online,
         description,
       },
     })
@@ -54,7 +58,7 @@ router.get('/:id', async (req, res, next) => {
     const data = await Device.findById(req.params.id)
     res.json({
       code: 200,
-      message: 'OK',
+      message: 'ok',
       data,
     })
   } catch (e) {

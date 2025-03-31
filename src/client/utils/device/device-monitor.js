@@ -3,7 +3,7 @@ import mqtt from 'mqtt'
 export default class DeviceMonitor {
   constructor(device) {
     this.deviceId = device.deviceId
-    this.state = device.state
+    this.online = device.online
     this.model = device.model
     this.description = device.description
     this.properties = {}
@@ -14,10 +14,10 @@ export default class DeviceMonitor {
     this.disconnect()
     this.client = mqtt.connect(import.meta.env.VITE_MQTT_SOCKET_URL)
     this.client.on('connect', () => {
-      this.client.subscribe(`device/online/${this.deviceId}`)
+      this.client.subscribe(`device/online/${this.deviceId}`, { qos: 2 })
       this.client.subscribe(`device/upload/${this.deviceId}`)
-      this.client.subscribe(`device/event/${this.deviceId}`)
-      this.client.subscribe(`device/offline/${this.deviceId}`)
+      this.client.subscribe(`device/event/${this.deviceId}`, { qos: 2 })
+      this.client.subscribe(`device/offline/${this.deviceId}`, { qos: 2 })
       this.client.on('message', (topic, payload) => {
         try {
           const split = topic.split('/', 2)
@@ -45,6 +45,9 @@ export default class DeviceMonitor {
         service,
         data,
       }),
+      {
+        qos: 2,
+      },
     )
   }
 
@@ -52,7 +55,7 @@ export default class DeviceMonitor {
     console.log(this)
     switch (topic) {
       case 'device/online':
-        this.state = 'online'
+        this.online = true
         break
       case 'device/upload':
         Object.assign(this.properties, message)
@@ -61,7 +64,7 @@ export default class DeviceMonitor {
         this.events.unshift(message)
         break
       case 'device/offline':
-        this.state = 'offline'
+        this.online = false
         break
     }
   }

@@ -1,6 +1,6 @@
-import { setupMongo } from './models/index.js'
-import { setupMqtt } from './mqtt/index.js'
-import { setupExpress } from './routes/index.js'
+import setupMongo from './models/index.js'
+import setupMqtt from './mqtt/index.js'
+import setupExpress from './routes/index.js'
 
 const startTime = Date.now()
 

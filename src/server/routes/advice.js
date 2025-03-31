@@ -40,7 +40,8 @@ export function logger(req, res, next) {
       operation: `${req.method} ${url.parse(req.originalUrl).pathname}`,
       level,
       data: {
-        remote: `${req.socket.remoteAddress} ${req.socket.remotePort}`,
+        address: req.socket.remoteAddress,
+        port: req.socket.remotePort,
         query: req.query,
         body: req.body,
         params: req.params,
@@ -60,11 +61,7 @@ export function authentication(req, res, next) {
     next(new AppError(401))
     return
   }
-  if (req.session.user.role === 'admin') {
-    next()
-    return
-  }
-  if (req.method !== 'GET') {
+  if (user.role !== 'admin' && req.method !== 'GET') {
     next(new AppError(403))
     return
   }

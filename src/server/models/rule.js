@@ -42,4 +42,5 @@ const schema = new mongoose.Schema(
 )
 
 schema.plugin(idPlugin)
+
 export default mongoose.model('Rule', schema)

@@ -1,19 +1,22 @@
 <template>
   <el-form :inline="true" :model="search">
     <el-form-item label="level">
-      <LevelSelectComponent style="width: 150px" v-model:level="search.level" />
+      <LogLevelSelectComponent
+        style="width: 150px"
+        v-model:level="search.level"
+        @update:level="list"
+      />
     </el-form-item>
     <el-form-item label="user">
-      <UserSelectComponent style="width: 150px" v-model:user="search.user" />
+      <UserSelectComponent style="width: 150px" v-model:user="search.user" @update:user="list" />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="list">search</el-button>
-      <el-button @click="clear">clear</el-button>
+      <el-button @click="search = {}">clear</el-button>
     </el-form-item>
   </el-form>
 
   <el-table :data="dataList">
-    <el-table-column type="expand">
+    <el-table-column type="expand" prop="data">
       <template #default="scope">
         <el-form-item label="data">
           {{ scope.row.data }}
@@ -54,8 +57,8 @@
     v-model:total="search.total"
     :page-sizes="[10, 20, 50, 100]"
     layout="jumper, prev, pager, next, sizes, total"
-    @current-change="handleCurrentChange"
-    @size-change="handleSizeChange"
+    @current-change="list"
+    @size-change="list"
   />
 </template>
 
@@ -72,40 +75,16 @@ import {
 } from 'element-plus'
 import { logApi } from '../api/index.js'
 import UserSelectComponent from '../components/UserSelectComponent.vue'
-import LevelSelectComponent from '../components/LevelSelectComponent.vue'
+import LogLevelSelectComponent from '../components/LogLevelSelectComponent.vue'
 
-const searchObj = {
-  curr: 1,
-  size: 10,
-  total: 0,
-  user: undefined,
-  level: undefined,
-}
-
-const dataList = ref([])
-const search = ref({
-  ...searchObj,
-})
-const levelToType = ref({
+const levelToType = {
   info: 'info',
   warning: 'warning',
   error: 'danger',
-})
-
-function clear() {
-  search.value = { ...searchObj }
-  list()
 }
 
-function handleCurrentChange(curr) {
-  search.value.curr = curr || search.value.curr || 1
-  list()
-}
-
-function handleSizeChange(size) {
-  search.value.size = size || search.value.size || 10
-  list()
-}
+const dataList = ref([])
+const search = ref({})
 
 async function list() {
   const json = await logApi.list(search.value)

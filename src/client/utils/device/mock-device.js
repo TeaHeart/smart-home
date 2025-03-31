@@ -11,7 +11,7 @@ export default class MockDevice {
     this.disconnect()
     this.client = mqtt.connect(import.meta.env.VITE_MQTT_SOCKET_URL)
     this.client.on('connect', () => {
-      this.client.subscribe(`device/service/${this.deviceId}`)
+      this.client.subscribe(`device/service/${this.deviceId}`, { qos: 2 })
       this.client.on('message', (topic, payload) => {
         try {
           payload = JSON.parse(payload.toString())
@@ -31,7 +31,7 @@ export default class MockDevice {
 
   online() {
     console.log(this.model.name, this.deviceId, 'online')
-    this.client?.publish(`device/online/${this.deviceId}`, JSON.stringify(this.model))
+    this.client?.publish(`device/online/${this.deviceId}`, JSON.stringify(this.model), { qos: 2 })
   }
 
   upload() {
@@ -41,7 +41,7 @@ export default class MockDevice {
 
   emit(event) {
     console.log(this.model.name, this.deviceId, 'event', event)
-    this.client?.publish(`device/event/${this.deviceId}`, JSON.stringify(event))
+    this.client?.publish(`device/event/${this.deviceId}`, JSON.stringify(event), { qos: 2 })
   }
 
   handlerMessage(message) {

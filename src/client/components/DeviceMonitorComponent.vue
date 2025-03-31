@@ -2,44 +2,19 @@
   <el-card class="device-card">
     <template #header>
       {{ device.model.name }}
-      <el-tag :type="stateToClass[device.state]">{{ device.state }}</el-tag>
-      <el-tag v-if="device.description" type="info"> {{ device.description }}</el-tag>
+      <el-tag :type="device.online ? 'success' : 'danger'">
+        {{ device.online ? 'online' : 'offline' }}
+      </el-tag>
+      <el-tag v-if="device.description" type="primary"> {{ device.description }}</el-tag>
     </template>
     <el-row :gutter="20">
       <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6">
         <el-card header="properties">
-          <el-form-item
-            v-for="(field, property) in device.model.properties"
-            :key="property"
-            :label="property"
-          >
-            <!-- boolean -->
-            <el-switch
-              v-if="field.type === 'boolean'"
-              v-model="device.properties[property]"
-              disabled
-            />
-            <!-- enum -->
-            <el-select-v2
-              v-else-if="field.type === 'enum'"
-              v-model="device.properties[property]"
-              :options="field.enum.map((value) => ({ label: value, value }))"
-              disabled
-            />
-            <!-- number -->
-            <el-input
-              v-else-if="field.type === 'number'"
-              v-model.number="device.properties[property]"
-              type="number"
-              disabled
-            >
-              <template #suffix>
-                {{ field.unit }}
-              </template>
-            </el-input>
-            <!-- else other -->
-            <el-input v-else v-model="device.properties[property]" type="text" disabled />
-          </el-form-item>
+          <ModelFormComponent
+            :disabled="true"
+            :model="device.model.properties"
+            v-model:data="device.properties"
+          />
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6">
@@ -53,42 +28,7 @@
                 {{ service }}
               </el-button>
             </template>
-            <el-form-item v-for="(field, property) in params" :key="property" :label="property">
-              <!-- boolean -->
-              <el-switch
-                v-if="field.type === 'boolean'"
-                v-model="deviceData.services[service][property]"
-              />
-              <!-- enum -->
-              <el-select-v2
-                v-else-if="field.type === 'enum'"
-                v-model="deviceData.services[service][property]"
-                :options="field.enum.map((value) => ({ label: value, value }))"
-                clearable
-              />
-              <!-- number -->
-              <el-input
-                v-else-if="field.type === 'number'"
-                v-model.number="deviceData.services[service][property]"
-                type="number"
-                clearable
-              >
-                <template #suffix>
-                  {{ field.unit }}
-                </template>
-              </el-input>
-              <!-- else other -->
-              <el-input
-                v-else
-                v-model="deviceData.services[service][property]"
-                type="text"
-                clearable
-              >
-                <template #suffix>
-                  {{ field.unit }}
-                </template>
-              </el-input>
-            </el-form-item>
+            <ModelFormComponent :model="params" v-model:data="deviceData.services[service]" />
           </el-card>
         </el-card>
       </el-col>
@@ -96,7 +36,7 @@
         <el-card>
           <template #header>
             events
-            <el-button type="warning" @click="device.events.splice(0)">clear</el-button>
+            <el-button @click="device.events.splice(0)">clear</el-button>
           </template>
           <el-table :data="device.events">
             <el-table-column type="expand">
@@ -122,26 +62,10 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, onUnmounted } from 'vue'
-import {
-  ElInput,
-  ElCard,
-  ElSelectV2,
-  ElRow,
-  ElCol,
-  ElTag,
-  ElFormItem,
-  ElButton,
-  ElSwitch,
-  ElTable,
-  ElTableColumn,
-} from 'element-plus'
+import { reactive, onMounted, onUnmounted } from 'vue'
+import { ElCard, ElRow, ElCol, ElTag, ElButton, ElTable, ElTableColumn } from 'element-plus'
 import DeviceMonitor from '../utils/device/device-monitor.js'
-
-const stateToClass = ref({
-  online: 'success',
-  offline: 'danger',
-})
+import ModelFormComponent from './ModelFormComponent.vue'
 
 const props = defineProps({
   deviceMonitor: {
@@ -151,6 +75,7 @@ const props = defineProps({
 })
 
 const device = props.deviceMonitor
+
 const deviceData = reactive({
   services: {},
 })

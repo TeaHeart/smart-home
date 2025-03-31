@@ -40,14 +40,16 @@
           :disabled="scope.row.username === 'sa'"
           type="warning"
           @click="showEditDialog(scope.row)"
-          >edit</el-button
         >
+          edit
+        </el-button>
         <el-button
           :disabled="scope.row.username === 'sa'"
           type="danger"
           @click="deleteById(scope.row.id)"
-          >delete</el-button
         >
+          delete
+        </el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -59,8 +61,8 @@
     v-model:total="search.total"
     :page-sizes="[10, 20, 50, 100]"
     layout="jumper, prev, pager, next, sizes, total"
-    @current-change="handleCurrentChange"
-    @size-change="handleSizeChange"
+    @current-change="list"
+    @size-change="list"
   />
 
   <el-dialog v-model="dialogVisible" title="edit">
@@ -79,10 +81,8 @@
       </el-form-item>
     </el-form>
     <template #footer>
-      <div class="dialog-footer">
-        <el-button type="warning" @click="updateById">update</el-button>
-        <el-button @click="hideEditDialog">close</el-button>
-      </div>
+      <el-button type="warning" @click="updateById">update</el-button>
+      <el-button @click="hideEditDialog">close</el-button>
     </template>
   </el-dialog>
 </template>
@@ -127,21 +127,7 @@ async function updateById() {
 }
 
 const dataList = ref([])
-const search = ref({
-  curr: 1,
-  size: 10,
-  total: 0,
-})
-
-function handleCurrentChange(curr) {
-  search.value.curr = curr || search.value.curr || 1
-  list()
-}
-
-function handleSizeChange(size) {
-  search.value.size = size || search.value.size || 10
-  list()
-}
+const search = ref({})
 
 async function list() {
   const json = await userApi.list(search.value)

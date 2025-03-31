@@ -1,13 +1,13 @@
 import mongoose from 'mongoose'
 import { idPlugin } from './plugin.js'
 
-export const roleList = ['admin', 'user']
+export const userRoleList = ['admin', 'user']
 
 const schema = new mongoose.Schema(
   {
     role: {
       type: String,
-      enum: roleList,
+      enum: userRoleList,
       required: false,
     },
     username: {

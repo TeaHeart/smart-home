@@ -1,8 +1,6 @@
 import mongoose from 'mongoose'
 import { idPlugin } from './plugin.js'
 
-export const stateList = ['online', 'offline']
-
 const schema = new mongoose.Schema(
   {
     deviceId: {
@@ -10,9 +8,8 @@ const schema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    state: {
-      type: String,
-      enum: stateList,
+    online: {
+      type: Boolean,
       required: true,
     },
     model: {

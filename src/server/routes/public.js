@@ -1,50 +1,38 @@
 import express from 'express'
-import { roleList, stateList, typeList, levelList } from '../models/index.js'
+import { userRoleList, messageTypeList, logLevelList } from '../models/index.js'
 
 const router = express.Router()
 
-router.get('/roleList', async (req, res, next) => {
+router.get('/user/role', async (req, res, next) => {
   try {
     res.json({
       code: 200,
-      message: 'OK',
-      data: roleList,
+      message: 'ok',
+      data: userRoleList,
     })
   } catch (e) {
     next(e)
   }
 })
 
-router.get('/stateList', async (req, res, next) => {
+router.get('/message/type', async (req, res, next) => {
   try {
     res.json({
       code: 200,
-      message: 'OK',
-      data: stateList,
+      message: 'ok',
+      data: messageTypeList,
     })
   } catch (e) {
     next(e)
   }
 })
 
-router.get('/typeList', async (req, res, next) => {
+router.get('/log/level', async (req, res, next) => {
   try {
     res.json({
       code: 200,
-      message: 'OK',
-      data: typeList,
-    })
-  } catch (e) {
-    next(e)
-  }
-})
-
-router.get('/levelList', async (req, res, next) => {
-  try {
-    res.json({
-      code: 200,
-      message: 'OK',
-      data: levelList,
+      message: 'ok',
+      data: logLevelList,
     })
   } catch (e) {
     next(e)

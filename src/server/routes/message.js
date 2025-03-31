@@ -5,7 +5,11 @@ const router = express.Router()
 
 router.get('/', async (req, res, next) => {
   try {
-    const { curr, size, type, device } = req.query
+    let { curr, size, type, device } = req.query
+    if (!curr || !size) {
+      curr = 1
+      size = 10
+    }
     const filter = {}
     if (type) {
       filter.type = type
@@ -22,7 +26,7 @@ router.get('/', async (req, res, next) => {
     const total = await Message.countDocuments(filter)
     res.json({
       code: 200,
-      message: 'OK',
+      message: 'ok',
       data,
       search: {
         curr,
@@ -42,7 +46,7 @@ router.get('/:id', async (req, res, next) => {
     const data = await Message.findById(req.params.id)
     res.json({
       code: 200,
-      message: 'OK',
+      message: 'ok',
       data,
     })
   } catch (e) {

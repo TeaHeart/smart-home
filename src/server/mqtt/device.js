@@ -1,6 +1,6 @@
 import { Parser } from 'expr-eval'
 import aedes from './aedes.js'
-import { Device, Message, Rule } from '../models/index.js'
+import { Device, Message, Rule, Log } from '../models/index.js'
 
 const parser = new Parser()
 
@@ -10,7 +10,7 @@ aedes.subscribe('device/online/+', async (packet, callback) => {
     const model = JSON.parse(packet.payload.toString())
     const device = await Device.findOneAndUpdate(
       { deviceId },
-      { state: 'online', model },
+      { online: true, model },
       { upsert: true, new: true },
     )
     if (!device) {
@@ -26,7 +26,15 @@ aedes.subscribe('device/online/+', async (packet, callback) => {
       throw new Error('create message failed')
     }
   } catch (e) {
-    console.error(packet.topic, 'error', e)
+    const log = await Log.create({
+      time: Date.now(),
+      operation: packet.topic,
+      level: 'error',
+      data: {
+        error: e.message,
+      },
+    })
+    console.log(log)
   } finally {
     callback()
   }
@@ -35,7 +43,7 @@ aedes.subscribe('device/online/+', async (packet, callback) => {
 aedes.subscribe('device/offline/+', async (packet, callback) => {
   try {
     const deviceId = packet.topic.split('/')[2]
-    const device = await Device.findOneAndUpdate({ deviceId }, { state: 'offline' }, { new: true })
+    const device = await Device.findOneAndUpdate({ deviceId }, { online: false }, { new: true })
     if (!device) {
       throw new Error('device update failed')
     }
@@ -49,7 +57,15 @@ aedes.subscribe('device/offline/+', async (packet, callback) => {
       throw new Error('create message failed')
     }
   } catch (e) {
-    console.error(packet.topic, 'error', e)
+    const log = await Log.create({
+      time: Date.now(),
+      operation: packet.topic,
+      level: 'error',
+      data: {
+        error: e.message,
+      },
+    })
+    console.log(log)
   } finally {
     callback()
   }
@@ -79,14 +95,30 @@ aedes.subscribe('device/upload/+', async (packet, callback) => {
     for (const rule of ruleList) {
       const expr = parser.parse(rule.condition)
       if (expr.evaluate(data) === true) {
+        const service = rule.service
+        // 忘记设置了类型, 这里就没用了
+        // for (const key in service.data) {
+        //   const value = data[key]
+        //   const exp = parser.parse(value)
+        //   service.data[key] = exp.evaluate(data)
+        // }
         aedes.publish({
+          qos: 2,
           topic: `device/service/${rule.target.deviceId}`,
-          payload: JSON.stringify(rule.service),
+          payload: JSON.stringify(service),
         })
       }
     }
   } catch (e) {
-    console.error(packet.topic, 'error', e)
+    const log = await Log.create({
+      time: Date.now(),
+      operation: packet.topic,
+      level: 'error',
+      data: {
+        error: e.message,
+      },
+    })
+    console.log(log)
   } finally {
     callback()
   }
@@ -110,7 +142,15 @@ aedes.subscribe('device/event/+', async (packet, callback) => {
       throw new Error('create message failed')
     }
   } catch (e) {
-    console.error(packet.topic, 'error', e)
+    const log = await Log.create({
+      time: Date.now(),
+      operation: packet.topic,
+      level: 'error',
+      data: {
+        error: e.message,
+      },
+    })
+    console.log(log)
   } finally {
     callback()
   }
@@ -134,7 +174,15 @@ aedes.subscribe('device/service/+', async (packet, callback) => {
       throw new Error('create message failed')
     }
   } catch (e) {
-    console.error(packet.topic, 'error', e)
+    const log = await Log.create({
+      time: Date.now(),
+      operation: packet.topic,
+      level: 'error',
+      data: {
+        error: e.message,
+      },
+    })
+    console.log(log)
   } finally {
     callback()
   }

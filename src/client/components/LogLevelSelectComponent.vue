@@ -1,10 +1,10 @@
 <template>
   <el-select-v2
-    placeholder="role"
+    placeholder="level"
     :options="options"
     :clearable="clearable"
     :disabled="disabled"
-    v-model="role"
+    v-model="level"
   />
 </template>
 
@@ -22,22 +22,22 @@ const props = defineProps({
     type: Boolean,
     default: () => false,
   },
-  role: {
+  level: {
     type: String,
   },
 })
 
-const emit = defineEmits(['update:role'])
+const emit = defineEmits(['update:level'])
 
-const role = computed({
-  get: () => props.role,
-  set: (value) => emit('update:role', value),
+const level = computed({
+  get: () => props.level,
+  set: (value) => emit('update:level', value),
 })
 
 const options = ref([])
 
 async function list() {
-  const json = await publicApi.getUserRoleList()
+  const json = await publicApi.getLogLevelList()
   ElMessage.success(json.message)
   options.value = json.data.map((value) => ({ value, label: value }))
 }

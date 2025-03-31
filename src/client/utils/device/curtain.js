@@ -40,6 +40,9 @@ export default class Curtain extends MockDevice {
   }
 
   service_on() {
+    if (this.properties.is_open) {
+      return
+    }
     this.properties.is_open = true
     this.event_on({
       message: 'on ok',
@@ -47,6 +50,9 @@ export default class Curtain extends MockDevice {
   }
 
   service_off() {
+    if (!this.properties.is_open) {
+      return
+    }
     this.properties.is_open = false
     this.event_off({
       message: 'off ok',

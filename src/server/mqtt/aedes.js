@@ -1,11 +1,14 @@
 import Aedes from 'aedes'
+import { Log } from '../models/index.js'
 
 const aedes = new Aedes()
-const clientMap = {} // client.id => device.deviceId
+// client.id => device.deviceId
+const clientMap = {}
 
-aedes.on('publish', (packet, client) => {
+aedes.on('publish', async (packet, client) => {
   try {
     if (client) {
+      console.log('publish222222222222222222222222222')
       const topic = packet.topic
       const deviceId = topic.split('/')[2]
       console.log('publish', client.id, packet.topic, packet.payload.length)
@@ -14,7 +17,17 @@ aedes.on('publish', (packet, client) => {
       }
     }
   } catch (e) {
-    console.error('publish error', e)
+    const log = await Log.create({
+      time: Date.now(),
+      operation: packet.topic,
+      level: 'error',
+      data: {
+        address: client?.req?.socket?.remoteAddress,
+        port: client?.req?.socket?.remotePort,
+        error: e.message,
+      },
+    })
+    console.log(log)
   }
 })
 
@@ -27,10 +40,20 @@ aedes.on('clientDisconnect', async (client) => {
       delete clientMap[client.id]
       return
     }
-    aedes.publish({ topic: `device/offline/${deviceId}`, payload: '{}' })
+    aedes.publish({ qos: 2, topic: `device/offline/${deviceId}`, payload: '{}' })
     delete clientMap[client.id]
   } catch (e) {
-    console.error('clientDisconnect error', e)
+    const log = await Log.create({
+      time: Date.now(),
+      operation: 'clientDisconnect',
+      level: 'error',
+      data: {
+        address: client?.req?.socket?.remoteAddress,
+        port: client?.req?.socket?.remotePort,
+        error: e.message,
+      },
+    })
+    console.log(log)
   }
 })
 

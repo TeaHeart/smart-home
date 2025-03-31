@@ -1,7 +1,7 @@
 import { ref, reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { ElMessage } from 'element-plus'
-import authApi from '../api/auth.js'
+import { authApi } from '../api/index.js'
 import router from '../router/index.js'
 
 export default defineStore('auth', () => {

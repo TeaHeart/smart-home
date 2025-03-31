@@ -1,14 +1,21 @@
 <template>
   <el-form :inline="true" :model="search">
     <el-form-item label="type">
-      <TypeSelectComponent style="width: 150px" v-model="search.type" />
+      <MessageTypeSelectComponent
+        style="width: 150px"
+        v-model:type="search.type"
+        @update:type="list"
+      />
     </el-form-item>
     <el-form-item label="device">
-      <DeviceSelectComponent style="width: 800px" v-model="search.device" />
+      <DeviceSelectComponent
+        style="width: 500px"
+        v-model:device="search.device"
+        @update:device="list"
+      />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="list">search</el-button>
-      <el-button @click="clear">clear</el-button>
+      <el-button @click="search = {}">clear</el-button>
     </el-form-item>
   </el-form>
 
@@ -54,8 +61,8 @@
     v-model:total="search.total"
     :page-sizes="[10, 20, 50, 100]"
     layout="jumper, prev, pager, next, sizes, total"
-    @current-change="handleCurrentChange"
-    @size-change="handleSizeChange"
+    @current-change="list"
+    @size-change="list"
   />
 </template>
 
@@ -72,43 +79,19 @@ import {
   ElFormItem,
 } from 'element-plus'
 import { messageApi } from '../api/index.js'
-import TypeSelectComponent from '../components/TypeSelectComponent.vue'
+import MessageTypeSelectComponent from '../components/MessageTypeSelectComponent.vue'
 import DeviceSelectComponent from '../components/DeviceSelectComponent.vue'
 
-const searchObj = {
-  curr: 1,
-  size: 10,
-  total: 0,
-  type: undefined,
-  device: undefined,
-}
-
-const dataList = ref([])
-const search = ref({
-  ...searchObj,
-})
-
-const typeToClass = ref({
+const typeToClass = {
   online: 'success',
   upload: 'info',
   service: 'primary',
   event: 'warning',
   offline: 'danger',
-})
-function clear() {
-  search.value = { ...searchObj }
-  list()
 }
 
-function handleCurrentChange(curr) {
-  search.value.curr = curr || search.value.curr || 1
-  list()
-}
-
-function handleSizeChange(size) {
-  search.value.size = size || search.value.size || 10
-  list()
-}
+const dataList = ref([])
+const search = ref({})
 
 async function list() {
   const json = await messageApi.list(search.value)

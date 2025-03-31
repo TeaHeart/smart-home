@@ -8,7 +8,7 @@ router.post('/', async (req, res, next) => {
     await Rule.create(req.body)
     res.json({
       code: 200,
-      message: 'OK',
+      message: 'ok',
     })
   } catch (e) {
     next(e)
@@ -20,7 +20,7 @@ router.delete('/:id', async (req, res, next) => {
     await Rule.deleteOne({ _id: req.params.id })
     res.json({
       code: 200,
-      message: 'OK',
+      message: 'ok',
     })
   } catch (e) {
     next(e)
@@ -32,7 +32,7 @@ router.put('/:id', async (req, res, next) => {
     await Rule.updateOne({ _id: req.params.id }, req.body)
     res.json({
       code: 200,
-      message: 'OK',
+      message: 'ok',
     })
   } catch (e) {
     next(e)
@@ -44,7 +44,7 @@ router.put('/:id/enabled', async (req, res, next) => {
     await Rule.updateOne({ _id: req.params.id }, { enabled: req.body.enabled })
     res.json({
       code: 200,
-      message: 'OK',
+      message: 'ok',
     })
   } catch (e) {
     next(e)
@@ -53,7 +53,11 @@ router.put('/:id/enabled', async (req, res, next) => {
 
 router.get('/', async (req, res, next) => {
   try {
-    const { curr, size, name, enabled, source, target } = req.query
+    let { curr, size, name, enabled, source, target } = req.query
+    if (!curr || !size) {
+      curr = 1
+      size = 10
+    }
     const filter = {}
     if (name) {
       filter.name = { $regex: name, $options: 'i' }
@@ -76,7 +80,7 @@ router.get('/', async (req, res, next) => {
     const total = await Rule.countDocuments(filter)
     res.json({
       code: 200,
-      message: 'OK',
+      message: 'ok',
       data,
       search: {
         curr,
@@ -98,7 +102,7 @@ router.get('/:id', async (req, res, next) => {
     const data = await Rule.findById(req.params.id)
     res.json({
       code: 200,
-      message: 'OK',
+      message: 'ok',
       data,
     })
   } catch (e) {

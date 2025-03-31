@@ -2,37 +2,29 @@ import request from '../utils/request.js'
 
 const prefix = '/public'
 
-function getRoleList() {
+function getUserRoleList() {
   return request({
     method: 'get',
-    url: `${prefix}/roleList`,
+    url: `${prefix}/user/role`,
   })
 }
 
-function getStateList() {
+function getMessageTypeList() {
   return request({
     method: 'get',
-    url: `${prefix}/stateList`,
+    url: `${prefix}/message/type`,
   })
 }
 
-function getTypeList() {
+function getLogLevelList() {
   return request({
     method: 'get',
-    url: `${prefix}/typeList`,
-  })
-}
-
-function getLevelList() {
-  return request({
-    method: 'get',
-    url: `${prefix}/levelList`,
+    url: `${prefix}/log/level`,
   })
 }
 
 export default {
-  getRoleList,
-  getStateList,
-  getTypeList,
-  getLevelList,
+  getUserRoleList,
+  getMessageTypeList,
+  getLogLevelList,
 }

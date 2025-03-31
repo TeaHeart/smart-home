@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { idPlugin } from './plugin.js'
 
-export const levelList = ['info', 'warning', 'error']
+export const logLevelList = ['info', 'warning', 'error']
 
 const schema = new mongoose.Schema(
   {
@@ -12,7 +12,7 @@ const schema = new mongoose.Schema(
     },
     level: {
       type: String,
-      enum: levelList,
+      enum: logLevelList,
       required: true,
     },
     time: {

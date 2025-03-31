@@ -1,6 +1,6 @@
 import express from 'express'
 import { User } from '../models/index.js'
-import { AppError } from './index.js'
+import { AppError } from './advice.js'
 
 const router = express.Router()
 
@@ -10,7 +10,7 @@ router.post('/register', async (req, res, next) => {
     await User.create(req.body)
     res.json({
       code: 200,
-      message: 'OK',
+      message: 'ok',
     })
   } catch (e) {
     next(e)
@@ -29,7 +29,7 @@ router.post('/login', async (req, res, next) => {
     req.session.user = data
     res.json({
       code: 200,
-      message: 'OK',
+      message: 'ok',
       data,
     })
   } catch (e) {
@@ -42,7 +42,7 @@ router.post('/logout', async (req, res, next) => {
     req.session.user = null
     res.json({
       code: 200,
-      message: 'OK',
+      message: 'ok',
     })
   } catch (e) {
     next(e)
@@ -58,7 +58,7 @@ router.get('/me', async (req, res, next) => {
     }
     res.json({
       code: 200,
-      message: 'OK',
+      message: 'ok',
       data,
     })
   } catch (e) {

@@ -44,9 +44,17 @@ export default class Lamp extends MockDevice {
   }
 
   service_on(data) {
-    this.properties.is_open = true
+    data.is_open = true
+    let modify = false
     for (const key in data) {
-      this.properties[key] = data[key] || this.properties[key]
+      const value = data[key]
+      if (value && value !== this.properties[key]) {
+        this.properties[key] = value
+        modify = true
+      }
+    }
+    if (!modify) {
+      return
     }
     this.event_on({
       message: 'on ok',
@@ -54,6 +62,9 @@ export default class Lamp extends MockDevice {
   }
 
   service_off() {
+    if (!this.properties.is_open) {
+      return
+    }
     this.properties.is_open = false
     this.event_off({
       message: 'off ok',

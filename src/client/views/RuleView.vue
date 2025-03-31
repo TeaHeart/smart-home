@@ -1,27 +1,36 @@
 <template>
   <el-form :inline="true" :model="search">
     <el-form-item label="name">
-      <el-input v-model="search.name" placeholder="name" clearable />
+      <el-input placeholder="name" clearable v-model="search.name" @update:model-value="list" />
     </el-form-item>
     <el-form-item label="enabled">
       <el-select-v2
-        v-model="search.enabled"
-        :options="
-          ['enabled', 'disabled'].map((value) => ({ value: value === 'enabled', label: value }))
-        "
         style="width: 150px"
+        :options="options"
+        placeholder="enabled"
         clearable
-      ></el-select-v2>
+        v-model="search.enabled"
+        @update:model-value="list"
+      />
     </el-form-item>
     <el-form-item label="source">
-      <DeviceSelectComponent style="width: 150px" v-model:device="search.source" />
+      <DeviceSelectComponent
+        style="width: 500px"
+        clearable
+        v-model:device="search.source"
+        @update:device="list"
+      />
     </el-form-item>
     <el-form-item label="target">
-      <DeviceSelectComponent style="width: 150px" v-model:device="search.target" />
+      <DeviceSelectComponent
+        style="width: 500px"
+        clearable
+        v-model:device="search.target"
+        @update:device="list"
+      />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="list">search</el-button>
-      <el-button @click="clear">clear</el-button>
+      <el-button @click="search = {}">clear</el-button>
     </el-form-item>
   </el-form>
 
@@ -99,8 +108,8 @@
     v-model:total="search.total"
     :page-sizes="[10, 20, 50, 100]"
     layout="jumper, prev, pager, next, sizes, total"
-    @current-change="handleCurrentChange"
-    @size-change="handleSizeChange"
+    @current-change="list"
+    @size-change="list"
   />
 </template>
 
@@ -121,34 +130,10 @@ import {
 import { ruleApi } from '../api/index.js'
 import DeviceSelectComponent from '../components/DeviceSelectComponent.vue'
 
-const searchObj = {
-  curr: 1,
-  size: 10,
-  total: 0,
-  name: undefined,
-  enabled: undefined,
-  source: undefined,
-  target: undefined,
-}
-const dataList = ref([])
-const search = ref({
-  ...searchObj,
-})
-
-function clear() {
-  search.value = { ...searchObj }
-  list()
-}
-
-function handleCurrentChange(curr) {
-  search.value.curr = curr || search.value.curr || 1
-  list()
-}
-
-function handleSizeChange(size) {
-  search.value.size = size || search.value.size || 10
-  list()
-}
+const options = [
+  { label: 'enabled', value: true },
+  { label: 'disabled', value: false },
+]
 
 async function deleteById(id) {
   const json = await ruleApi.deleteById(id)
@@ -156,17 +141,20 @@ async function deleteById(id) {
   await list()
 }
 
+async function handleSwitchChange(row) {
+  const json = await ruleApi.updateEnabledById(row.id, row)
+  ElMessage.success(json.message)
+  await list()
+}
+
+const dataList = ref([])
+const search = ref({})
+
 async function list() {
   const json = await ruleApi.list(search.value)
   ElMessage.success(json.message)
   dataList.value = json.data
   search.value = json.search
-}
-
-async function handleSwitchChange(row) {
-  const json = await ruleApi.updateEnabledById(row.id, row)
-  ElMessage.success(json.message)
-  await list()
 }
 
 onMounted(() => {

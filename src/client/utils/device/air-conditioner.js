@@ -100,18 +100,29 @@ export default class AirConditioner extends MockDevice {
   }
 
   service_on(data) {
-    this.properties.is_open = true
+    data.is_open = true
+    let modify = false
     for (const key in data) {
-      this.properties[key] = data[key] || this.properties[key]
+      if (key === 'timing' && this.properties.timing >= 0) {
+        continue
+      }
+      const value = data[key]
+      if (value && value !== this.properties[key]) {
+        this.properties[key] = value
+        modify = true
+      }
+    }
+    if (!modify) {
+      return
     }
     this.event_on({
-      message: 'off ok',
+      message: 'on ok',
     })
   }
 
   service_off() {
     this.properties.is_open = false
-    this.timing = -1
+    this.properties.timing = -1
     this.event_off({
       message: 'off ok',
     })
