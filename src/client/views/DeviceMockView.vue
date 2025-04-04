@@ -25,6 +25,7 @@ import { ref, provide, onUnmounted } from 'vue'
 import { ElFormItem, ElSwitch, ElButton } from 'element-plus'
 import MockDeviceComponent from '../components/MockDeviceComponent.vue'
 import { Lamp, Curtain, AirConditioner, Camera } from '../utils/device/index.js'
+import { v4 as uuidv4 } from 'uuid'
 
 const all = ref({
   isAutoNext: false,
@@ -56,7 +57,7 @@ onUnmounted(() => {
 
 function mockDevice() {
   for (let i = 0; i < 100; i++) {
-    const ac = new AirConditioner(crypto.randomUUID().replaceAll('-', ''))
+    const ac = new AirConditioner(uuidv4().replaceAll('-', ''))
     ac.connect()
     ac.properties.is_open = true
     arr.push(ac)
