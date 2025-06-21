@@ -22,7 +22,7 @@
         </el-form-item>
       </el-form>
     </el-main>
-    <el-footer>v20250404a</el-footer>
+    <el-footer>v20250621a</el-footer>
   </el-container>
 </template>
 
