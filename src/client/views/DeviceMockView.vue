@@ -15,7 +15,7 @@
     <el-switch v-model="all.isAutoNext" inline-prompt active-text="autoNext" inactive-text="stop" />
     <el-button type="primary" @click="all.next++">next</el-button>
     <el-switch v-model="all.isOpen" inline-prompt active-text="open" inactive-text="close" />
-    <el-button @click="mockDevice" type="danger">creat 100 mock device</el-button>
+    <el-button v-show="false" @click="mockDevice" type="danger">creat 100 mock device</el-button>
   </el-form-item>
   <MockDeviceComponent v-for="item in dataList" :key="item.deviceId" :mock-device="item" />
 </template>
@@ -56,11 +56,13 @@ onUnmounted(() => {
 })
 
 function mockDevice() {
-  for (let i = 0; i < 100; i++) {
-    const ac = new AirConditioner(uuidv4().replaceAll('-', ''))
-    ac.connect()
-    ac.properties.is_open = true
-    arr.push(ac)
+  if ('1024' === prompt('password') && confirm('creat 100 mock device?')) {
+    for (let i = 0; i < 100; i++) {
+      const ac = new AirConditioner(uuidv4().replaceAll('-', ''))
+      ac.connect()
+      ac.properties.is_open = true
+      arr.push(ac)
+    }
   }
 }
 </script>

@@ -37,14 +37,14 @@
     <el-table-column label="operation">
       <template #default="scope">
         <el-button
-          :disabled="scope.row.username === 'sa'"
+          v-show="scope.row.username !== 'sa'"
           type="warning"
           @click="showEditDialog(scope.row)"
         >
           edit
         </el-button>
         <el-button
-          :disabled="scope.row.username === 'sa'"
+          v-show="scope.row.username !== 'sa'"
           type="danger"
           @click="deleteById(scope.row.id)"
         >

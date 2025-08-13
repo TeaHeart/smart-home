@@ -65,7 +65,7 @@
         </el-header>
 
         <el-main>
-          <el-scrollbar>
+          <el-scrollbar view-style="height:100%">
             <router-view />
             <el-backtop
               target=".el-main .el-scrollbar__wrap"
