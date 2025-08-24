@@ -2,13 +2,14 @@ import MockDevice from './mock-device.js'
 import { MathUtil } from '../index.js'
 
 const model = {
-  name: 'Camera',
+  name: 'Mock Curtain',
   properties: {
     is_open: {
       type: 'boolean',
     },
-    entity_count: {
+    illumination: {
       type: 'number',
+      unit: 'lux',
     },
   },
   services: {
@@ -26,19 +27,15 @@ const model = {
         type: 'string',
       },
     },
-    entity_detected: {
-      entity_count: {
-        type: 'number',
-      },
-    },
   },
 }
 
-export default class Camera extends MockDevice {
+export default class Curtain extends MockDevice {
   constructor(deviceId) {
     super(deviceId, model)
     this.properties = {
-      entity_count: 0,
+      is_open: false,
+      illumination: 5000,
     }
   }
 
@@ -70,35 +67,13 @@ export default class Camera extends MockDevice {
     this.emit({ event: 'off', data })
   }
 
-  event_entity_detected(data) {
-    this.emit({ event: 'entity_detected', data })
-  }
-
-  next() {
-    super.next()
-    this.prevEntityCount = this.properties.entity_count
-  }
-
   randomData() {
-    this.properties.entity_count = MathUtil.random(
+    this.properties.illumination = MathUtil.random(
       0,
-      2,
-      this.properties.entity_count,
-      1,
+      10000,
+      this.properties.illumination,
+      100,
       MathUtil.toFixedFn(0),
     )
-  }
-
-  checkEvent() {
-    if (!this.properties.is_open) {
-      return
-    }
-    if (this.properties.entity_count > 0) {
-      if (this.prevEntityCount !== this.properties.entity_count) {
-        this.event_entity_detected({
-          entity_count: this.properties.entity_count,
-        })
-      }
-    }
   }
 }

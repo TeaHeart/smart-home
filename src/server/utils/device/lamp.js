@@ -1,7 +1,7 @@
 import MockDevice from './mock-device.js'
 
 const model = {
-  name: 'Lamp',
+  name: 'Mock Lamp',
   properties: {
     is_open: {
       type: 'boolean',

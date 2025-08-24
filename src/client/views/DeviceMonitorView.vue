@@ -51,7 +51,7 @@ import {
 } from 'element-plus'
 import DeviceMonitorComponent from '../components/DeviceMonitorComponent.vue'
 import { deviceApi } from '../api/index.js'
-import { DeviceMonitor } from '../utils/device/index.js'
+import { DeviceMonitor } from '../utils/index.js'
 
 const options = [
   { label: 'online', value: true },

@@ -1,15 +1,16 @@
 import mqtt from 'mqtt'
+import process from 'process'
 
 export default class MockDevice {
   constructor(deviceId, model) {
     this.deviceId = deviceId
     this.model = model
-    this.isAutoMode = false
+    this.isAutoMode = true
   }
 
   connect() {
     this.disconnect()
-    this.client = mqtt.connect(import.meta.env.VITE_MQTT_SOCKET_URL)
+    this.client = mqtt.connect(process.env.VITE_MQTT_SOCKET_URL)
     this.client.on('connect', () => {
       this.client.subscribe(`device/service/${this.deviceId}`, { qos: 2 })
       this.client.on('message', (topic, payload) => {

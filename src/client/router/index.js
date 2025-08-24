@@ -35,11 +35,6 @@ const router = createRouter({
       component: () => import('../views/DeviceMonitorView.vue'),
     },
     {
-      path: '/device-mock',
-      name: 'device-mock',
-      component: () => import('../views/DeviceMockView.vue'),
-    },
-    {
       path: '/message',
       name: 'message',
       component: () => import('../views/MessageView.vue'),

@@ -5,7 +5,7 @@ const workModeList = ['cooling', 'heating', 'drying']
 const fanSpeedList = ['low', 'medium', 'high']
 
 const model = {
-  name: 'AirConditioner',
+  name: 'Mock AirConditioner',
   properties: {
     temperature: {
       type: 'number',

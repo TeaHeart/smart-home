@@ -43,7 +43,6 @@
             <el-sub-menu index="6">
               <template #title> system </template>
               <el-menu-item index="/log"> log </el-menu-item>
-              <el-menu-item index="/device-mock"> device mock </el-menu-item>
               <el-menu-item index="/demo"> demo </el-menu-item>
             </el-sub-menu>
           </el-menu>

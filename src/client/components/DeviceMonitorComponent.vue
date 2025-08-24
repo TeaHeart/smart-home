@@ -64,7 +64,7 @@
 <script setup>
 import { reactive, onMounted, onUnmounted } from 'vue'
 import { ElCard, ElRow, ElCol, ElTag, ElButton, ElTable, ElTableColumn } from 'element-plus'
-import DeviceMonitor from '../utils/device/device-monitor.js'
+import { DeviceMonitor } from '../utils/index.js'
 import ModelFormComponent from './ModelFormComponent.vue'
 
 const props = defineProps({
