@@ -22,7 +22,7 @@
         </el-form-item>
       </el-form>
     </el-main>
-    <el-footer>v20250813a</el-footer>
+    <el-footer> {{ appVersion }}</el-footer>
   </el-container>
 </template>
 
@@ -43,6 +43,8 @@ import useAuthStore from '../stores/auth.js'
 const authStore = useAuthStore()
 const { register, login } = authStore
 const { user } = storeToRefs(authStore)
+
+const appVersion = import.meta.env.VITE_APP_VERSION
 </script>
 
 <style scoped>
