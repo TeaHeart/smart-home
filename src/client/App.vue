@@ -14,36 +14,36 @@
           >
             <!-- <el-sub-menu index="1"> -->
             <!-- <template #title> home </template> -->
-            <el-menu-item index="/overview"> overview </el-menu-item>
+            <el-menu-item index="/overview"> 总览 </el-menu-item>
             <!-- </el-sub-menu> -->
 
             <el-sub-menu index="2">
-              <template #title> user </template>
-              <el-menu-item index="/user"> user </el-menu-item>
+              <template #title> 用户模块 </template>
+              <el-menu-item index="/user"> 用户管理 </el-menu-item>
             </el-sub-menu>
 
             <el-sub-menu index="3">
-              <template #title> device </template>
-              <el-menu-item index="/device"> device </el-menu-item>
-              <el-menu-item index="/device-monitor"> device monitor </el-menu-item>
+              <template #title> 设备模块 </template>
+              <el-menu-item index="/device"> 设备管理 </el-menu-item>
+              <el-menu-item index="/device-monitor"> 设备监控 </el-menu-item>
             </el-sub-menu>
 
             <el-sub-menu index="4">
-              <template #title> message </template>
-              <el-menu-item index="/message"> message </el-menu-item>
-              <el-menu-item index="/message-databoard"> message databoard </el-menu-item>
+              <template #title> 消息模块 </template>
+              <el-menu-item index="/message"> 消息管理 </el-menu-item>
+              <el-menu-item index="/message-databoard"> 消息面板 </el-menu-item>
             </el-sub-menu>
 
             <el-sub-menu index="5">
-              <template #title> rule </template>
-              <el-menu-item index="/rule"> rule </el-menu-item>
-              <el-menu-item index="/rule-designer"> rule designer </el-menu-item>
+              <template #title> 规则模块 </template>
+              <el-menu-item index="/rule"> 规则管理 </el-menu-item>
+              <el-menu-item index="/rule-designer"> 规则设计 </el-menu-item>
             </el-sub-menu>
 
             <el-sub-menu index="6">
-              <template #title> system </template>
-              <el-menu-item index="/log"> log </el-menu-item>
-              <el-menu-item index="/demo"> demo </el-menu-item>
+              <template #title> 系统模块 </template>
+              <el-menu-item index="/log"> 日志管理 </el-menu-item>
+              <el-menu-item index="/demo"> 演示 </el-menu-item>
             </el-sub-menu>
           </el-menu>
         </el-scrollbar>
@@ -53,12 +53,12 @@
         <el-header>
           <el-row>
             <el-col :span="4"> {{ title }} </el-col>
-            <el-col :span="16"> smart-home </el-col>
+            <el-col :span="16"> 智能家居服务平台 </el-col>
             <el-col :span="2">
-              <el-tag>hi, {{ loginUser.username }}</el-tag>
+              <el-tag>您好, {{ loginUser.username }}</el-tag>
             </el-col>
             <el-col :span="2">
-              <el-tag @click="logout">logout</el-tag>
+              <el-tag @click="logout">登出</el-tag>
             </el-col>
           </el-row>
         </el-header>

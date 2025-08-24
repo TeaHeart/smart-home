@@ -1,23 +1,23 @@
 <template>
   <el-container>
     <el-header>
-      <span>smart home</span>
+      <span>智能家居服务平台</span>
     </el-header>
     <el-main>
       <el-form :model="user">
         <el-form-item>
-          <span>welcome</span>
+          <span>欢迎</span>
         </el-form-item>
-        <el-form-item label="username">
+        <el-form-item label-width="60px" label="用户名">
           <el-input v-model="user.username" clearable />
         </el-form-item>
-        <el-form-item label="password">
+        <el-form-item label-width="60px" label="密码">
           <el-input type="password" v-model="user.password" clearable />
         </el-form-item>
         <el-form-item>
           <div>
-            <el-button type="primary" @click="login">login</el-button>
-            <el-button @click="register">register</el-button>
+            <el-button type="primary" @click="login">登录</el-button>
+            <el-button @click="register">注册</el-button>
           </div>
         </el-form-item>
       </el-form>
