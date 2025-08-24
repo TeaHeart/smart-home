@@ -17,4 +17,4 @@
 - [x] system
   - [x] log
   - [x] device mock
-  - [ ] about
+  - [x] demo
