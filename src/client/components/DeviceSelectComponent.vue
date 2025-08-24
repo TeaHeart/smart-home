@@ -41,7 +41,7 @@ async function list() {
   const json = await deviceApi.list({ size: -1 })
   ElMessage.success(json.message)
   options.value = json.data.map((value) => ({
-    label: [value.deviceId, value.description, value.model.name].join(' | '),
+    label: [value.deviceId, value.model.name, value.description].filter(item => item).join(' | '),
     value: value.id,
   }))
 }
