@@ -1,3 +1,4 @@
+
 services:
   app:
     build:
@@ -34,3 +35,4 @@ networks:
 
 volumes:
   mongo-data:
+    driver: local
