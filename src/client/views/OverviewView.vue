@@ -1,19 +1,19 @@
 <template>
   <el-row :gutter="16">
-    <el-col :span="8">
+    <el-col :lg="8" :sm="12" :xs="24">
       <el-statistic title="user" :value="data.user.total" />
     </el-col>
-    <el-col :span="8">
+    <el-col :lg="8" :sm="12" :xs="24">
       <el-statistic title="device" :value="data.device.online">
         <template #suffix>/{{ data.device.total }}</template>
       </el-statistic>
     </el-col>
-    <el-col :span="8">
+    <el-col :lg="8" :sm="12" :xs="24">
       <el-statistic title="rule" :value="data.rule.enabled">
         <template #suffix>/{{ data.rule.total }}</template>
       </el-statistic>
     </el-col>
-    <el-col :span="8">
+    <el-col :lg="8" :sm="12" :xs="24">
       <el-statistic :value="data.message.upload">
         <template #title>
           message
@@ -21,7 +21,7 @@
         </template>
       </el-statistic>
     </el-col>
-    <el-col :span="8">
+    <el-col :lg="8" :sm="12" :xs="24">
       <el-statistic :value="data.message.service">
         <template #title>
           message
@@ -29,7 +29,7 @@
         </template>
       </el-statistic>
     </el-col>
-    <el-col :span="8">
+    <el-col :lg="8" :sm="12" :xs="24">
       <el-statistic :value="data.message.event">
         <template #title>
           message
@@ -37,7 +37,7 @@
         </template>
       </el-statistic>
     </el-col>
-    <el-col :span="8">
+    <el-col :lg="8" :sm="12" :xs="24">
       <el-statistic :value="data.log.info">
         <template #title>
           log
@@ -45,7 +45,7 @@
         </template>
       </el-statistic>
     </el-col>
-    <el-col :span="8">
+    <el-col :lg="8" :sm="12" :xs="24">
       <el-statistic :value="data.log.warning">
         <template #title>
           log
@@ -53,7 +53,7 @@
         </template>
       </el-statistic>
     </el-col>
-    <el-col :span="8">
+    <el-col :lg="8" :sm="12" :xs="24">
       <el-statistic :value="data.log.error">
         <template #title>
           log

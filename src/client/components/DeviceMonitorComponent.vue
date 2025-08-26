@@ -8,7 +8,7 @@
       <el-tag v-if="device.description" type="primary"> {{ device.description }}</el-tag>
     </template>
     <el-row :gutter="20">
-      <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6">
+      <el-col :xs="24" :sm="24" :md="12" :lg="8">
         <el-card header="properties">
           <ModelFormComponent
             :disabled="true"
@@ -17,7 +17,7 @@
           />
         </el-card>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6">
+      <el-col :xs="24" :sm="24" :md="12" :lg="8">
         <el-card header="services">
           <el-card v-for="(params, service) in device.model.services" :key="service">
             <template #header>
@@ -32,7 +32,7 @@
           </el-card>
         </el-card>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6">
+      <el-col :xs="24" :sm="24" :md="12" :lg="8">
         <el-card>
           <template #header>
             events

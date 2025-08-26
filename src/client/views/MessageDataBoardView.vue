@@ -21,7 +21,7 @@
   </el-form>
   <el-card header="stats">
     <el-row :gutter="20">
-      <el-col v-for="(value, key) in data.stats" :key="key" :span="4">
+      <el-col v-for="(value, key) in data.stats" :key="key" :lg="4" :sm="12" :xs="24">
         <el-statistic :value="value">
           <template #title>
             <el-tag :type="typeToClass[key]"> {{ key }} </el-tag>
@@ -63,7 +63,7 @@
 </template>
 
 <script setup>
-import { ref, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import {
   ElForm,
   ElFormItem,
@@ -215,8 +215,19 @@ function updateChart() {
   chart.setOption(option)
 }
 
+function handleResize() {
+  if (chart) {
+    chart.resize()
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('resize', handleResize)
+})
+
 onBeforeUnmount(() => {
   clean()
+  window.removeEventListener('resize', handleResize)
 })
 </script>
 
@@ -232,5 +243,6 @@ onBeforeUnmount(() => {
   border: 1px solid #ddd;
   border-radius: 5px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  margin: 5px 0;
 }
 </style>
